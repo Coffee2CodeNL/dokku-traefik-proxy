@@ -10,9 +10,8 @@ traefik_proxy_enable() {
   declare APP="$1"
   [[ -z "$APP" ]] && dokku_log_fail "Please specify an app to run the command on"
 
-  if [[ "$(get_app_proxy_type "$APP")" = "traefik" ]]; then
-    plugn trigger network-build-config "$APP"
-    call_script --enable_proxy --app_name "$APP" --dokku_root "$DOKKU_ROOT"
+  if [[ "$(get_app_proxy_type "$APP")" == "traefik" ]]; then
+    traefik_call_script --enable_proxy --app_name "$APP" --dokku_root "$DOKKU_ROOT"
   fi
 }
 
