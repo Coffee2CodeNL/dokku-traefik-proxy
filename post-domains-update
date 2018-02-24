@@ -17,7 +17,7 @@ traefik_post_domains_update() {
 
   if [[ "$(get_app_proxy_type "$APP")" = "traefik" ]]; then
     plugn trigger network-build-config "$APP"
-    /usr/bin/env python3 traefik.py --set-domains --app_name "$APP" --dokku_root "$DOKKU_ROOT" ${DOMAINS} \
+    /usr/bin/env python3 traefik.py --update-domains --app_name "$APP" --dokku_root "$DOKKU_ROOT" ${DOMAINS} \
     --action "$ACTION_NAME"
   fi
 }
