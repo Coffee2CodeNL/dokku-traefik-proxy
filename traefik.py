@@ -6,6 +6,7 @@ from pathlib import Path
 class TraefikPlugin(object):
     def __init__(self):
         self.app_path = Path()
+        self.network_name = Path("./NETWORK")
         self.settings = {
             "enabled": False,
             "name": "",
@@ -63,6 +64,9 @@ class TraefikPlugin(object):
 
     def build_config(self):
         with self.app_path.joinpath("LABELS").open("w") as f:
+            net_name = ""
+            with self.network_name.open("r") as nnf:
+                net_name = nnf.read().rstrip()
             f.writelines([
                 "traefik.enabled={}".format(self.settings["enabled"]),
                 "traefik.{name}.frontend.rule=$Host:{hosts}".format(
@@ -72,7 +76,8 @@ class TraefikPlugin(object):
                 "traefik.{name}.port={port}".format(
                     name=self.settings["name"],
                     port=self.settings["port"]
-                )
+                ),
+                "traefik.docker.network={network_name}".format(network_name=net_name)
             ])
 
     def update_domains(self, domains, action):
