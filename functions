@@ -18,9 +18,9 @@ traefik_get_label_file() {
 
 traefik_is_enabled() {
     local APP="$1"
-    traefik_call_script --get-enabled --dokku_root "$DOKKU_ROOT" --app_name="$APP"
+    traefik_call_script --get_enabled --dokku_root "$DOKKU_ROOT" --app_name="$APP"
 }
 
 traefik_build_labels() {
-    traefik_call_script --build-config --dokku_root "$DOKKU_ROOT" --app_name "$APP"
+    traefik_call_script --build_config --dokku_root "$DOKKU_ROOT" --app_name "$APP"
 }
