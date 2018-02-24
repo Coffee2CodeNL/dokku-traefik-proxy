@@ -9,6 +9,7 @@ traefik_post_domains_update() {
   declare APP="$1"
   shift
   local ACTION_NAME="$1"
+  shift
   local DOMAINS=""
   [[ -z "$APP" ]] && dokku_log_fail "Please specify an app to run the command on"
 
