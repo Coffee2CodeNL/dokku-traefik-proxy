@@ -24,6 +24,7 @@ traefik_post_domains_update() {
     traefik_call_script --update_domains --app_name "$APP" \
     --dokku_root "$DOKKU_ROOT" ${DOMAINS} \
     --update_domains_action "$ACTION_NAME"
+    traefik_build_labels
   fi
 }
 
