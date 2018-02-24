@@ -7,12 +7,14 @@ traefik_post_domains_update() {
   declare desc="catch domain name events for Traefik"
   declare trigger="traefik_post_domains_update"
   declare APP="$1"
-  local ACTION_NAME="$2"
+  shift
+  local ACTION_NAME="$1"
   local DOMAINS=""
   [[ -z "$APP" ]] && dokku_log_fail "Please specify an app to run the command on"
 
-  for i in "${@:2}"; do
-     DOMAINS+="--domain ${i} "
+  while [[ "$1" != "" ]]; do
+     DOMAINS+="--domain ${1} "
+     shift
   done
 
   if [[ "$(get_app_proxy_type "$APP")" = "traefik" ]]; then
