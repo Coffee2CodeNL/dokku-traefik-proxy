@@ -1,1 +1,9 @@
 #!/usr/bin/env bash
+
+call_script() {
+    /usr/bin/env python3 $PLUGIN_AVAILABLE_PATH/traefik-proxy/traefik.py $@
+}
+
+get_network_for_app() {
+
+}

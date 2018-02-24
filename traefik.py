@@ -7,18 +7,16 @@ class TraefikPlugin(object):
     def __init__(self):
         self.app_path = Path()
         self.settings = {
-            "services": [
-                {
-                    "enabled": False,
-                    "name": "default",
-                    "port": 5000,
-                    "domains": []
-                }
-            ]
+            "enabled": False,
+            "name": "",
+            "port": 5000,
+            "domains": []
         }
         parser = argparse.ArgumentParser(description="Traefik <=> Dokku interfacer")
         parser.add_argument("--app_name", required=True)
         parser.add_argument("--dokku_root", required=True)
+        parser.add_argument("--enable_proxy", help="Enable the proxy for the app", action="store_true")
+        parser.add_argument("--disable_proxy", help="Disable the proxy for the app", action="store_true")
         parser.add_argument("--build_config", help="Build the config for the app", action="store_true")
         parser.add_argument("--update_domains", help="Update the list of Domains", action="store_true")
         parser.add_argument("--update_domains_action")
@@ -26,11 +24,14 @@ class TraefikPlugin(object):
 
         args = parser.parse_args()
         self.check_config(dokku_root=args.dokku_root, app_name=args.app_name)
-        if args.build_config:
+        if args.enable_proxy:
+            self.settings["enabled"] = True
+        elif args.disable_proxy:
+            self.settings["enabled"] = False
+        elif args.build_config:
             self.build_config()
         elif args.update_domains:
-            if args.update_domains_action == "set":
-                self.update_domains(domains=args.domain, action=args.update_domains_action)
+            self.update_domains(domains=args.domain, action=args.update_domains_action)
         self.write_config()
 
     def check_config(self, dokku_root, app_name):
@@ -40,10 +41,12 @@ class TraefikPlugin(object):
             if not config_file.exists():
                 config_file.touch()
                 with config_file.open("w") as f:
+                    self.settings["name"] = app_name
                     json.dump(self.settings, f)
             else:
                 with config_file.open() as f:
                     self.settings = json.load(f)
+                    self.settings["name"] = app_name
         else:
             print("App does not exist")
 
@@ -59,23 +62,30 @@ class TraefikPlugin(object):
         print("=====> {}".format(message))
 
     def build_config(self):
-        app_path = self.app_path
-        if app_path.exists():
-            app_path.joinpath("traefik.json").touch()
+        with self.app_path.joinpath("LABELS").open("w") as f:
+            f.writelines([
+                "traefik.enabled={}".format(self.settings["enabled"]),
+                "traefik.{name}.frontend.rule=$Host:{hosts}".format(
+                    name=self.settings["name"],
+                    hosts=",".join(self.settings["domains"])
+                ),
+                "traefik.{name}.port={port}".format(
+                    name=self.settings["name"],
+                    port=self.settings["port"]
+                )
+            ])
 
     def update_domains(self, domains, action):
-        services = self.settings["services"]
-        for service in services:
-            if action == "set":
-                service["domains"] = domains
-            elif action == "add":
-                service["domains"].append(domains)
-            elif action == "remove":
-                [service["domains"].remove(domain) for domain in domains]
-            elif action == "clear":
-                service["domains"] = []
-            else:
-                print("Wrong action {}".format(action))
+        if action == "set":
+            self.settings["domains"] = domains
+        elif action == "add":
+            self.settings["domains"].append(domains)
+        elif action == "remove":
+            [self.settings["domains"].remove(domain) for domain in domains]
+        elif action == "clear":
+            self.settings["domains"] = []
+        else:
+            print("Wrong action {}".format(action))
 
 
 if __name__ == '__main__':
