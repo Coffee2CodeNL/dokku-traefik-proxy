@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
-
-call_script() {
-    /usr/bin/env python3 $PLUGIN_AVAILABLE_PATH/traefik-proxy/traefik.py $@
+traefik_get_plugin_path() {
+    echo "${PLUGIN_AVAILABLE_PATH}/traefik-proxy"
 }
 
-get_network_for_app() {
+traefik_call_script() {
+    /usr/bin/env python3 $(traefik_get_plugin_path)/traefik.py $@
+}
 
+traefik_get_network_for_proxy() {
+    echo $(cat $(traefik_get_plugin_path)/NETWORK)
+}
+
+traefik_get_label_file() {
+    local APP="$1"
+    echo "$DOKKU_ROOT/$APP/LABELS"
+}
+
+traefik_is_enabled() {
+    local APP="$1"
+    traefik_call_script --get-enabled --dokku_root "$DOKKU_ROOT" --app_name="$APP"
 }

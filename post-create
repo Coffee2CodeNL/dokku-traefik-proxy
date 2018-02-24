@@ -9,8 +9,9 @@ traefik_post_create() {
   local trigger="traefik-proxy_post_create"
   local APP="$1"
 
-  local passed_phases=(run)
-  add_passed_docker_option passed_phases[@] "--network=proxy_network"
+  local passed_phases=(run deploy)
+  add_passed_docker_option passed_phases[@] "--network=$(traefik_get_network_for_proxy)"
+
 }
 
 traefik_post_create "$@"
