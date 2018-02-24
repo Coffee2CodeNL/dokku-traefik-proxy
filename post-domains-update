@@ -7,17 +7,17 @@ traefik_post_domains_update() {
   declare desc="catch domain name events for Traefik"
   declare trigger="traefik_post_domains_update"
   declare APP="$1"
-  declare ACTION_NAME="$2"
-  DOMAINS=()
+  local ACTION_NAME="$2"
+  local DOMAINS=""
   [[ -z "$APP" ]] && dokku_log_fail "Please specify an app to run the command on"
 
   for i in "${@:2}"; do
-     DOMAINS+=($i)
+     DOMAINS+="--domain ${i}"
   done
 
   if [[ "$(get_app_proxy_type "$APP")" = "traefik" ]]; then
     plugn trigger network-build-config "$APP"
-    /usr/bin/env python3 traefik.py --set-domains --app_name "$APP" --dokku_root "$DOKKU_ROOT" --domains "$DOMAINS" \
+    /usr/bin/env python3 traefik.py --set-domains --app_name "$APP" --dokku_root "$DOKKU_ROOT" ${DOMAINS} \
     --action "$ACTION_NAME"
   fi
 }
