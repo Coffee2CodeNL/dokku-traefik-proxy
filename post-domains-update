@@ -12,7 +12,7 @@ traefik_post_domains_update() {
   [[ -z "$APP" ]] && dokku_log_fail "Please specify an app to run the command on"
 
   for i in "${@:2}"; do
-     DOMAINS+="--domain ${i}"
+     DOMAINS+="--domain ${i} "
   done
 
   if [[ "$(get_app_proxy_type "$APP")" = "traefik" ]]; then
