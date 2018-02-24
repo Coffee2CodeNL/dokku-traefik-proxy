@@ -9,10 +9,14 @@ class TraefikPlugin(object):
         parser.add_argument("--app_name", required=True)
         parser.add_argument("--dokku_root", required=True)
         parser.add_argument("--build_config", help="Build the config for the app", action="store_true")
-        parser.add_argument("--post_create", help="")
+        parser.add_argument("--update_domains", help="Update the list of Domains", action="store_true")
+        parser.add_argument("--update_domains_action")
+        parser.add_argument("--domain", help="The domains to update", action="append")
         args = parser.parse_args()
         if args.build_config:
             self.build_config(dokku_root=args.dokku_root, app_name=args.app_name)
+        elif args.update_domains:
+            print(args.update_domains_action, args.domain)
 
     def print_info_1(self, message):
         print("-----> {}".format(message))
