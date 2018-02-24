@@ -30,7 +30,7 @@ class TraefikPlugin(object):
             self.build_config()
         elif args.update_domains:
             if args.update_domains_action == "set":
-                self.update_domains(args.update_domains_action, args.domain)
+                self.update_domains(domains=args.domain, action=args.update_domains_action)
         self.write_config()
 
     def check_config(self, dokku_root, app_name):
