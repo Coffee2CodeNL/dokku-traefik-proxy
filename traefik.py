@@ -1,46 +1,5 @@
 import argparse
-import re
 from pathlib import Path
-import json
-from pprint import pprint
-
-import jsonpickle as jsonpickle
-
-
-class TraefikOptions(object):
-    def __init__(self):
-        self.domains = list()
-        self.ports = list()
-        self.out = {
-            "domains": [],
-            "ports": [],
-            "enabled": False
-        }
-
-    def add_domain(self, domain):
-        self.domains.append(domain)
-        self.out["domains"] = self.domains
-
-    def remove_domain(self, domain):
-        self.domains.remove(domain)
-        self.out["domains"] = self.domains
-
-    def add_port(self, port):
-        self.ports.append(port)
-        self.out["ports"] = self.ports
-
-    def remove_port(self, port):
-        self.ports.remove(port)
-        self.out["ports"] = self.ports
-
-    def enable(self):
-        self.out["enabled"] = True
-
-    def disable(self):
-        self.out["enabled"] = False
-
-    def get_all(self):
-        return self.out
 
 
 class TraefikPlugin(object):
