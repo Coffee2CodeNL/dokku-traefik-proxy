@@ -81,7 +81,7 @@ class TraefikPlugin(object):
                     name=self.settings["name"],
                     hosts=domains
                 ),
-                "traefik.backend.port={port}\n".format(
+                "traefik.{name}.port={port}\n".format(
                     name=self.settings["name"],
                     port=self.settings["port"]
                 ),
