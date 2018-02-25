@@ -93,9 +93,9 @@ class TraefikPlugin(object):
         if action == "set":
             self.settings["domains"] = domains
         elif action == "add":
-            self.settings["domains"].append(domains)
+            [self.settings["domains"].append(domain) for domain in domains if domain not in self.settings["domains"]]
         elif action == "remove":
-            [self.settings["domains"].remove(domain) for domain in domains]
+            [self.settings["domains"].remove(domain) for domain in domains if domain in self.settings["domains"]]
         elif action == "clear":
             self.settings["domains"] = []
         else:
