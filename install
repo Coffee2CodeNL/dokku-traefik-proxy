@@ -14,5 +14,5 @@ docker run -d -p 8080:8080 -p 80:80 \
     -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.toml:/etc/traefik/traefik.toml \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/acme:/etc/traefik/acme \
-    --flags-file="${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.flags" \
+    --labels-file="${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.flags" \
     --network="$(traefik_get_network_for_proxy)" traefik
