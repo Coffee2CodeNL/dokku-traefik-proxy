@@ -12,6 +12,7 @@ traefik_proxy_disable() {
 
   if [[ "$(get_app_proxy_type "$APP")" == "traefik" ]]; then
     traefik_call_script --disable_proxy --app_name "$APP" --dokku_root "$DOKKU_ROOT"
+    traefik_build_labels
   fi
 }
 

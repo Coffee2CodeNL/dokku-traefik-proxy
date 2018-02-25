@@ -9,7 +9,7 @@ traefik_get_deploy_args() {
   declare desc="sets the labels on deployment"
   local APP="$1" IMAGE_TAG="$2" PROC_TYPE="$3" CONTAINER_INDEX="$4"
   local output=""
-
+  traefik_build_labels
   if [[ "$PROC_TYPE" == "web" ]] && \
      [[ "$(traefik_is_enabled "$APP")" == "true" ]] && \
      [[ "$(get_app_proxy_type "$APP")" == "traefik" ]]; then
