@@ -16,4 +16,5 @@ docker run -d -p 80:80 -p 443:443 \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/acme:/etc/traefik/acme \
     --label-file="${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.flags" \
+    --name="traefik-dokku-proxy" \
     --network="$(traefik_get_network_for_proxy)" traefik > ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/CONTAINER
