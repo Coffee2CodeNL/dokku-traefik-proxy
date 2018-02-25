@@ -89,7 +89,6 @@ class TraefikPlugin(object):
             ])
 
     def update_domains(self, domains, action):
-        print(action, domains, self.settings["domains"])
         if action == "set":
             self.settings["domains"] = domains
         elif action == "add":
@@ -100,6 +99,8 @@ class TraefikPlugin(object):
             self.settings["domains"] = []
         else:
             print("Wrong action {}".format(action))
+        self.settings["domains"].remove("")
+        print(action, domains, self.settings["domains"])
 
 
 if __name__ == '__main__':
