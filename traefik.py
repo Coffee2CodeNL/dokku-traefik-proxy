@@ -99,7 +99,7 @@ class TraefikPlugin(object):
             self.settings["domains"] = []
         else:
             print("Wrong action {}".format(action))
-        print(action, domains, self.settings["domains"])
+        print(action, domains, ",".join(self.settings["domains"]))
 
 
 if __name__ == '__main__':
