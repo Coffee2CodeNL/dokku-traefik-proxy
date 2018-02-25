@@ -76,7 +76,7 @@ class TraefikPlugin(object):
                 net_name = nnf.read().rstrip()
             domains = ",".join(self.settings["domains"])
             f.writelines([
-                "traefik.enabled={}\n".format(self.settings["enabled"]),
+                "traefik.enabled={}\n".format(self.settings["enabled"].lower()),
                 "traefik.{name}.frontend.rule=$Host:{hosts}\n".format(
                     name=self.settings["name"],
                     hosts=domains
