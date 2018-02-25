@@ -11,7 +11,7 @@ traefik_get_deploy_args() {
   local output=""
   traefik_build_labels
   if [[ "$PROC_TYPE" == "web" ]] && \
-     [[ "$(traefik_is_enabled "$APP")" == "true" ]] && \
+     [[ "$(traefik_is_enabled "$APP")" == "True" ]] && \
      [[ "$(get_app_proxy_type "$APP")" == "traefik" ]]; then
     output=" --label-file $(traefik_get_label_file ${APP})"
   fi
