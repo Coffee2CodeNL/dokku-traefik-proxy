@@ -74,11 +74,12 @@ class TraefikPlugin(object):
             net_name = ""
             with self.network_name.open("r") as nnf:
                 net_name = nnf.read().rstrip()
+            domains = ",".join(self.settings["domains"])
             f.writelines([
                 "traefik.enabled={}\n".format(self.settings["enabled"]),
                 "traefik.{name}.frontend.rule=$Host:{hosts}\n".format(
                     name=self.settings["name"],
-                    hosts=",".join(self.settings["domains"])
+                    hosts=domains
                 ),
                 "traefik.{name}.port={port}\n".format(
                     name=self.settings["name"],
