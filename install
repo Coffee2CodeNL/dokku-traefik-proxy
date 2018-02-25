@@ -11,7 +11,7 @@ sed -i "s;{{DOMAIN}};$(cat $DOKKU_ROOT/VHOST);g" ${PLUGIN_AVAILABLE_PATH}/traefi
 sed -i "s;{{PROXY_NET}};$(traefik_get_network_for_proxy);g" ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.flags
 mkdir -p ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/acme
 touch ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/acme/acme.json
-docker run -d -p 8080:8080 -p 80:80 \
+docker run -d -p 80:80 -p 443:443 \
     -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.toml:/etc/traefik/traefik.toml \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/acme:/etc/traefik/acme \
