@@ -6,14 +6,14 @@ source "$PLUGIN_AVAILABLE_PATH/proxy/functions"
 source "$PLUGIN_AVAILABLE_PATH/traefik-proxy/functions"
 
 traefik_get_deploy_args() {
-  declare desc="sets the labels on deployment"
+  declare desc="sets the labels and network on deployment"
   local APP="$1" IMAGE_TAG="$2" PROC_TYPE="$3" CONTAINER_INDEX="$4"
   local output=""
   traefik_build_labels
   if [[ "$PROC_TYPE" == "web" ]] && \
      [[ "$(traefik_is_enabled "$APP")" == "True" ]] && \
      [[ "$(get_app_proxy_type "$APP")" == "traefik" ]]; then
-    output=" --label-file $(traefik_get_label_file ${APP})"
+    output=" --label-file $(traefik_get_label_file ${APP}) --network=$(traefik_get_network_for_proxy)"
   fi
   echo -n "$STDIN$output"
 }

@@ -7,7 +7,7 @@ class TraefikPlugin(object):
     def __init__(self):
         self.app_path = Path()
         self.settings = {
-            "enabled": False,
+            "enabled": True,
             "name": "",
             "port": 5000,
             "domains": []
