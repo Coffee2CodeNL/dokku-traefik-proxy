@@ -19,7 +19,7 @@ dashboard = true
   users = ["admin:$2y$10$DbCLmFMaKPwuE32N/RPpPuRMLBzEfsvIvHmMdjKryatPxG85wTlUO"]
 
 [acme]
-email = "{{EMAIL}}"
+email = "postmaster@{{DOMAIN}}"
 storage = "/etc/traefik/acme/acme.json"
 entryPoint = "https"
 onHostRule = true
