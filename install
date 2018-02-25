@@ -2,8 +2,8 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 source "$PLUGIN_AVAILABLE_PATH/traefik-proxy/functions"
 docker pull traefik
-NET_EXISTS = $(docker network ls | tail -n +2 | awk -F ' ' '{print $2}' | grep $(traefik_get_network_for_proxy))
-if [[ ! -n $NET_EXISTS ]]; then
+NET_EXISTS="$(docker network ls | tail -n +2 | awk -F ' ' '{print $2}' | grep $(traefik_get_network_for_proxy))"
+if [[ ! -n ${NET_EXISTS} ]]; then
     docker network create $(traefik_get_network_for_proxy)
 fi
 docker run -d -p 8080:8080 -p 80:80 -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.toml:/etc/traefik/traefik.toml -v /var/run/docker.sock:/var/run/docker.sock --network="$(traefik_get_network_for_proxy)" traefik
