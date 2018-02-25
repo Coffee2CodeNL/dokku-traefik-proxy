@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$PLUGIN_AVAILABLE_PATH/traefik-proxy/functions"
 docker pull traefik
 docker network create $(traefik_get_network_for_proxy)
 docker run -d -p 8080:8080 -p 80:80 -v ${PLUGIN_AVAILABLE_PATH}/traefik-proxy/traefik.toml:/etc/traefik/traefik.toml -v /var/run/docker.sock:/var/run/docker.sock --network="$(traefik_get_network_for_proxy)" traefik
