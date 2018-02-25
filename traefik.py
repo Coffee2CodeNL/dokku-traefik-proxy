@@ -75,16 +75,16 @@ class TraefikPlugin(object):
             with self.network_name.open("r") as nnf:
                 net_name = nnf.read().rstrip()
             f.writelines([
-                "traefik.enabled={}".format(self.settings["enabled"]),
-                "traefik.{name}.frontend.rule=$Host:{hosts}".format(
+                "traefik.enabled={}\n".format(self.settings["enabled"]),
+                "traefik.{name}.frontend.rule=$Host:{hosts}\n".format(
                     name=self.settings["name"],
                     hosts=",".join(self.settings["domains"])
                 ),
-                "traefik.{name}.port={port}".format(
+                "traefik.{name}.port={port}\n".format(
                     name=self.settings["name"],
                     port=self.settings["port"]
                 ),
-                "traefik.docker.network={network_name}".format(network_name=net_name)
+                "traefik.docker.network={network_name}\n".format(network_name=net_name)
             ])
 
     def update_domains(self, domains, action):
