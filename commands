@@ -6,7 +6,7 @@ case "$1" in
     help_content_func () {
       declare desc="return help_content string"
       cat<<help_content
-    Traefik proxy for Dokku
+    Traefik proxy for Dokku installed.
 help_content
     }
     help_content_func

@@ -46,6 +46,7 @@ class TraefikPlugin(object):
                 config_file.touch()
                 with config_file.open("w") as f:
                     self.settings["name"] = app_name
+                    self.settings["domains"].append("")
                     json.dump(self.settings, f)
             else:
                 with config_file.open() as f:
@@ -86,6 +87,7 @@ class TraefikPlugin(object):
             ])
 
     def update_domains(self, domains, action):
+        print(action, domains)
         if action == "set":
             self.settings["domains"] = domains
         elif action == "add":
