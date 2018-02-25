@@ -1,4 +1,4 @@
 traefik.enable=true
 traefik.frontend.rule=Host:traefik.{{DOMAIN}}
 traefik.backend.port=8080
-traefik.docker.network=http_network
+traefik.docker.network={{PROXY_NET}}
