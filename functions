@@ -22,5 +22,5 @@ traefik_is_enabled() {
 }
 
 traefik_build_labels() {
-    traefik_call_script --build_config --dokku_root "$DOKKU_ROOT" --app_name "$APP"
+    traefik_call_script --build_config --dokku_root "$DOKKU_ROOT" --app_name "$APP" --plugin_path="$(traefik_get_plugin_path)"
 }

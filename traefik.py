@@ -6,7 +6,6 @@ from pathlib import Path
 class TraefikPlugin(object):
     def __init__(self):
         self.app_path = Path()
-        self.network_name = Path("./NETWORK")
         self.settings = {
             "enabled": False,
             "name": "",
@@ -16,6 +15,7 @@ class TraefikPlugin(object):
         parser = argparse.ArgumentParser(description="Traefik <=> Dokku interfacer")
         parser.add_argument("--app_name", required=True)
         parser.add_argument("--dokku_root", required=True)
+        parser.add_argument("--plugin_path")
         parser.add_argument("--enable_proxy", help="Enable the proxy for the app", action="store_true")
         parser.add_argument("--disable_proxy", help="Disable the proxy for the app", action="store_true")
         parser.add_argument("--build_config", help="Build the config for the app", action="store_true")
@@ -33,6 +33,7 @@ class TraefikPlugin(object):
         elif args.get_enabled:
             print(self.settings["enabled"])
         elif args.build_config:
+            self.network_name = Path(args.plugin_path).joinpath("NETWORK")
             self.build_config()
         elif args.update_domains:
             self.update_domains(domains=args.domain, action=args.update_domains_action)
